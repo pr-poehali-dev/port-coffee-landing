@@ -1,351 +1,543 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Index = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  const coffeeMenu = [
-    { name: "Капитанский эспрессо", price: "180₽", desc: "Крепкий и насыщенный" },
-    { name: "Морской капучино", price: "220₽", desc: "Нежный с пенкой-волной" },
-    { name: "Латте \"Морской бриз\"", price: "250₽", desc: "С нотками ванили" },
-    { name: "Раф \"Якорная стоянка\"", price: "270₽", desc: "Сливочная нежность" },
-    { name: "Флэт уайт \"Штиль\"", price: "240₽", desc: "Сбалансированный вкус" },
-    { name: "Американо \"Волна\"", price: "150₽", desc: "Классика в море кофе" },
+  const slides = [
+    { id: 0, title: "Титульный слайд" },
+    { id: 1, title: "О приложении" },
+    { id: 2, title: "Дизайн" },
+    { id: 3, title: "Путь пользователя" },
+    { id: 4, title: "Экраны приложения" },
+    { id: 5, title: "Функционал" },
   ];
 
+  const nextSlide = () => {
+    if (currentSlide < slides.length - 1 && !isAnimating) {
+      setIsAnimating(true);
+      setCurrentSlide(currentSlide + 1);
+      setTimeout(() => setIsAnimating(false), 500);
+    }
+  };
+
+  const prevSlide = () => {
+    if (currentSlide > 0 && !isAnimating) {
+      setIsAnimating(true);
+      setCurrentSlide(currentSlide - 1);
+      setTimeout(() => setIsAnimating(false), 500);
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") nextSlide();
+      if (e.key === "ArrowLeft") prevSlide();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentSlide, isAnimating]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted">
-      <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center">
-              <Icon name="Anchor" size={24} className="text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-primary" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Порт о кофе
+    <div className="min-h-screen bg-gradient-to-br from-primary via-primary/90 to-secondary relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-white/10"></div>
+
+      <div className="fixed top-4 left-4 z-50 flex gap-2">
+        {slides.map((slide, index) => (
+          <button
+            key={slide.id}
+            onClick={() => !isAnimating && setCurrentSlide(index)}
+            className={`h-2 rounded-full transition-all ${
+              index === currentSlide 
+                ? "w-8 bg-white" 
+                : "w-2 bg-white/40 hover:bg-white/60"
+            }`}
+          />
+        ))}
+      </div>
+
+      <div className="fixed top-4 right-4 z-50 text-white text-sm bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm">
+        {currentSlide + 1} / {slides.length}
+      </div>
+
+      <button
+        onClick={prevSlide}
+        disabled={currentSlide === 0}
+        className="fixed left-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-white/20 hover:bg-white/30 disabled:opacity-30 disabled:cursor-not-allowed rounded-full flex items-center justify-center backdrop-blur-sm transition-all"
+      >
+        <Icon name="ChevronLeft" size={28} className="text-white" />
+      </button>
+
+      <button
+        onClick={nextSlide}
+        disabled={currentSlide === slides.length - 1}
+        className="fixed right-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-white/20 hover:bg-white/30 disabled:opacity-30 disabled:cursor-not-allowed rounded-full flex items-center justify-center backdrop-blur-sm transition-all"
+      >
+        <Icon name="ChevronRight" size={28} className="text-white" />
+      </button>
+
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-8">
+        <div className={`w-full max-w-6xl transition-all duration-500 ${isAnimating ? "opacity-0 scale-95" : "opacity-100 scale-100"}`}>
+          
+          {currentSlide === 0 && (
+            <div className="text-center text-white space-y-8 animate-fade-in">
+              <div className="inline-block mb-8">
+                <div className="w-32 h-32 mx-auto bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center mb-6 shadow-2xl">
+                  <Icon name="Heart" size={64} className="text-white" />
+                </div>
+              </div>
+              <h1 className="text-6xl md:text-7xl font-bold mb-6" style={{ fontFamily: "'Manrope', sans-serif" }}>
+                Слушаем и Поддерживаем
               </h1>
-              <p className="text-xs text-muted-foreground">Кофейня у причала</p>
+              <p className="text-2xl md:text-3xl text-white/90 max-w-3xl mx-auto font-light">
+                Курсовой проект: Разработка дизайна мобильного приложения<br />для психологической помощи
+              </p>
+              <div className="pt-8 text-xl text-white/80">
+                <p>Выполнила: Шумова Д.В. | Группа ДС 22-21</p>
+                <p className="mt-2">Руководитель: Сорочан Ю.В.</p>
+              </div>
+              <div className="pt-12 flex justify-center gap-4">
+                <div className="w-3 h-3 bg-white/60 rounded-full animate-pulse"></div>
+                <div className="w-3 h-3 bg-white/60 rounded-full animate-pulse delay-100"></div>
+                <div className="w-3 h-3 bg-white/60 rounded-full animate-pulse delay-200"></div>
+              </div>
             </div>
-          </div>
-          
-          <div className="hidden md:flex gap-6 items-center">
-            <a href="#about" className="text-foreground hover:text-primary transition-colors">О нас</a>
-            <a href="#menu" className="text-foreground hover:text-primary transition-colors">Меню</a>
-            <a href="#gallery" className="text-foreground hover:text-primary transition-colors">Галерея</a>
-            <a href="#contact" className="text-foreground hover:text-primary transition-colors">Контакты</a>
-          </div>
+          )}
 
-          <button 
-            className="md:hidden p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <Icon name={isMenuOpen ? "X" : "Menu"} size={24} />
-          </button>
-        </div>
+          {currentSlide === 1 && (
+            <div className="text-white space-y-8 animate-fade-in">
+              <h2 className="text-5xl font-bold mb-8 text-center" style={{ fontFamily: "'Manrope', sans-serif" }}>
+                О приложении
+              </h2>
+              <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                <CardContent className="p-10">
+                  <p className="text-2xl text-foreground leading-relaxed mb-8">
+                    <strong>Слушаем и Поддерживаем</strong> — это приложение, которое психологически поможет людям с трудностями в жизни, эмоциями и принятием себя.
+                  </p>
+                  
+                  <div className="grid md:grid-cols-2 gap-6 mt-8">
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-bold text-primary flex items-center gap-3">
+                        <Icon name="Target" size={32} />
+                        Цели проекта
+                      </h3>
+                      <ul className="space-y-3 text-lg text-muted-foreground">
+                        <li className="flex items-start gap-3">
+                          <Icon name="Check" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                          <span>Создать удобный инструмент для психологической самопомощи</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Icon name="Check" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                          <span>Обеспечить доступность ментальной поддержки 24/7</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Icon name="Check" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                          <span>Помочь людям отслеживать своё эмоциональное состояние</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Icon name="Check" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                          <span>Предоставить персонализированные рекомендации</span>
+                        </li>
+                      </ul>
+                    </div>
 
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-t border-border px-4 py-4 space-y-3 animate-fade-in">
-            <a href="#about" className="block text-foreground hover:text-primary transition-colors">О нас</a>
-            <a href="#menu" className="block text-foreground hover:text-primary transition-colors">Меню</a>
-            <a href="#gallery" className="block text-foreground hover:text-primary transition-colors">Галерея</a>
-            <a href="#contact" className="block text-foreground hover:text-primary transition-colors">Контакты</a>
-          </div>
-        )}
-      </nav>
-
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-primary text-8xl">⚓</div>
-          <div className="absolute top-40 right-20 text-secondary text-6xl">🌊</div>
-          <div className="absolute bottom-20 left-1/4 text-accent text-7xl">⛵</div>
-        </div>
-
-        <div className="container mx-auto text-center relative z-10 animate-fade-in">
-          <h2 className="text-5xl md:text-7xl font-bold text-primary mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Ваш порт<br />в море кофе
-          </h2>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Бросьте якорь и насладитесь лучшим кофе<br />в атмосфере морских путешествий
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white text-lg px-8">
-              <Icon name="Coffee" size={20} className="mr-2" />
-              Посмотреть меню
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 border-primary text-primary hover:bg-primary/10">
-              <Icon name="MapPin" size={20} className="mr-2" />
-              Как добраться
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <section id="about" className="py-20 px-4 bg-white">
-        <div className="container mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Почему мы?
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="border-none shadow-lg hover:shadow-xl transition-all">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Icon name="Ship" size={32} className="text-primary" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">Морская атмосфера</h3>
-                <p className="text-muted-foreground">
-                  Уникальный интерьер в морском стиле переносит вас на борт корабля
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg hover:shadow-xl transition-all">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-secondary/10 rounded-full flex items-center justify-center">
-                  <Icon name="Coffee" size={32} className="text-secondary" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">Качественный кофе</h3>
-                <p className="text-muted-foreground">
-                  Отборные зёрна из разных уголков мира и профессиональные бариста
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg hover:shadow-xl transition-all">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-accent/20 rounded-full flex items-center justify-center">
-                  <Icon name="Heart" size={32} className="text-accent" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">Уютная гавань</h3>
-                <p className="text-muted-foreground">
-                  Идеальное место для встреч, работы или уединённого отдыха
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <section id="menu" className="py-20 px-4 bg-gradient-to-b from-background to-muted/50">
-        <div className="container mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Наше меню
-          </h2>
-          <p className="text-center text-muted-foreground mb-12 text-lg">Каждый напиток — это путешествие</p>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {coffeeMenu.map((item, index) => (
-              <Card key={index} className="border-2 border-primary/20 hover:border-primary/50 transition-all hover:shadow-lg">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-lg font-bold text-foreground flex-1">{item.name}</h3>
-                    <span className="text-xl font-bold text-secondary">{item.price}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
-                  <div className="mt-4 flex items-center gap-2">
-                    <Icon name="Coffee" size={16} className="text-primary" />
-                    <span className="text-xs text-muted-foreground">Готовим с любовью</span>
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-bold text-primary flex items-center gap-3">
+                        <Icon name="Lightbulb" size={32} />
+                        Задачи
+                      </h3>
+                      <ul className="space-y-3 text-lg text-muted-foreground">
+                        <li className="flex items-start gap-3">
+                          <Icon name="CheckCircle" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                          <span>Разработать интуитивный дизайн интерфейса</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Icon name="CheckCircle" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                          <span>Создать систему дневника настроения</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Icon name="CheckCircle" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                          <span>Интегрировать психологические тесты</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Icon name="CheckCircle" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                          <span>Обеспечить конфиденциальность данных пользователя</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-white">
-              <Icon name="FileText" size={20} className="mr-2" />
-              Полное меню (PDF)
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <section id="gallery" className="py-20 px-4 bg-white">
-        <div className="container mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Галерея
-          </h2>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <div key={i} className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center hover:scale-105 transition-transform cursor-pointer">
-                <Icon name={i % 4 === 0 ? "Anchor" : i % 3 === 0 ? "Ship" : i % 2 === 0 ? "Coffee" : "Waves"} size={48} className="text-primary/40" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 px-4 bg-primary text-white">
-        <div className="container mx-auto text-center">
-          <div className="max-w-3xl mx-auto">
-            <Icon name="Waves" size={64} className="mx-auto mb-6 opacity-80" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Присоединяйтесь к нашей команде
-            </h2>
-            <p className="text-lg mb-8 opacity-90">
-              Каждая чашка кофе — это новое приключение.<br />
-              Станьте частью нашей морской семьи!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-                <Icon name="Users" size={20} className="mr-2" />
-                Программа лояльности
-              </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                <Icon name="Gift" size={20} className="mr-2" />
-                Подарочные карты
-              </Button>
             </div>
-          </div>
-        </div>
-      </section>
+          )}
 
-      <section id="contact" className="py-20 px-4 bg-gradient-to-b from-muted to-background">
-        <div className="container mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Найдите нас
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            <div>
-              <h3 className="text-2xl font-bold text-foreground mb-6">Контакты</h3>
+          {currentSlide === 2 && (
+            <div className="text-white space-y-8 animate-fade-in">
+              <h2 className="text-5xl font-bold mb-8 text-center" style={{ fontFamily: "'Manrope', sans-serif" }}>
+                Дизайн системы
+              </h2>
               
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="MapPin" size={20} className="text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">Адрес</p>
-                    <p className="text-muted-foreground">ул. Морская, 42<br />Санкт-Петербург, 190000</p>
-                  </div>
-                </div>
+              <div className="grid md:grid-cols-3 gap-6">
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                  <CardContent className="p-8 text-center">
+                    <div className="mb-6">
+                      <div className="w-32 h-32 mx-auto bg-gradient-to-br from-primary to-secondary rounded-3xl flex items-center justify-center shadow-lg">
+                        <Icon name="MessageCircle" size={48} className="text-white" />
+                      </div>
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground mb-4">Логотип</h3>
+                    <p className="text-muted-foreground text-lg">
+                      Два диалоговых облака символизируют поддержку, эмпатию и взаимопонимание
+                    </p>
+                  </CardContent>
+                </Card>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Clock" size={20} className="text-secondary" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">Часы работы</p>
-                    <p className="text-muted-foreground">Пн-Пт: 08:00 – 22:00<br />Сб-Вс: 09:00 – 23:00</p>
-                  </div>
-                </div>
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                  <CardContent className="p-8 text-center">
+                    <h3 className="text-2xl font-bold text-foreground mb-6">Цвета</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-16 h-16 rounded-2xl bg-[#3DB4E6] shadow-lg"></div>
+                        <div className="text-left">
+                          <p className="font-bold text-foreground">Синий</p>
+                          <p className="text-sm text-muted-foreground">#3DB4E6</p>
+                          <p className="text-xs text-muted-foreground mt-1">Спокойствие, доверие</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="w-16 h-16 rounded-2xl bg-[#7DD3C0] shadow-lg"></div>
+                        <div className="text-left">
+                          <p className="font-bold text-foreground">Зелёный</p>
+                          <p className="text-sm text-muted-foreground">#7DD3C0</p>
+                          <p className="text-xs text-muted-foreground mt-1">Гармония, рост</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Phone" size={20} className="text-accent" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">Телефон</p>
-                    <p className="text-muted-foreground">+7 (812) 555-01-23</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Mail" size={20} className="text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">Email</p>
-                    <p className="text-muted-foreground">info@portocoffee.ru</p>
-                  </div>
-                </div>
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                  <CardContent className="p-8 text-center">
+                    <h3 className="text-2xl font-bold text-foreground mb-6">Шрифт</h3>
+                    <div className="space-y-4 text-left">
+                      <div>
+                        <p className="text-4xl font-bold text-foreground mb-2" style={{ fontFamily: "'Manrope', sans-serif" }}>Manrope</p>
+                        <p className="text-muted-foreground">Заголовки, акценты</p>
+                      </div>
+                      <div className="pt-4 border-t border-border">
+                        <p className="text-2xl text-foreground mb-2">Inter</p>
+                        <p className="text-muted-foreground">Основной текст, читабельность</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
 
-              <div className="flex gap-4 mt-8">
-                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors">
-                  <Icon name="Instagram" size={20} />
-                </div>
-                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors">
-                  <Icon name="Facebook" size={20} />
-                </div>
-                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors">
-                  <Icon name="Phone" size={20} />
-                </div>
-              </div>
+              <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                <CardContent className="p-8">
+                  <h3 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                    <Icon name="Palette" size={28} className="text-primary" />
+                    Философия дизайна
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-6 text-lg text-muted-foreground">
+                    <div>
+                      <p className="flex items-start gap-3">
+                        <Icon name="Sparkles" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                        <span><strong>Минимализм:</strong> Чистый интерфейс без лишних элементов для снижения когнитивной нагрузки</span>
+                      </p>
+                    </div>
+                    <div>
+                      <p className="flex items-start gap-3">
+                        <Icon name="Heart" size={20} className="text-secondary mt-1 flex-shrink-0" />
+                        <span><strong>Эмпатия:</strong> Мягкие цвета и формы создают ощущение безопасности и поддержки</span>
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
+          )}
 
-            <div>
-              <h3 className="text-2xl font-bold text-foreground mb-6">Забронировать столик</h3>
+          {currentSlide === 3 && (
+            <div className="text-white space-y-8 animate-fade-in">
+              <h2 className="text-5xl font-bold mb-8 text-center" style={{ fontFamily: "'Manrope', sans-serif" }}>
+                Путь пользователя
+              </h2>
               
-              <form className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-foreground block mb-2">Имя</label>
-                  <input 
-                    type="text" 
-                    placeholder="Ваше имя"
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  />
-                </div>
+              <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                <CardContent className="p-10">
+                  <div className="relative">
+                    <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-secondary to-accent"></div>
+                    
+                    <div className="space-y-8 relative">
+                      <div className="flex items-start gap-6">
+                        <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg z-10">
+                          1
+                        </div>
+                        <div className="flex-1 pt-3">
+                          <h3 className="text-2xl font-bold text-foreground mb-2">Старт → Вход / Регистрация</h3>
+                          <p className="text-lg text-muted-foreground">Пользователь знакомится с возможностями приложения и создаёт аккаунт</p>
+                        </div>
+                      </div>
 
-                <div>
-                  <label className="text-sm font-medium text-foreground block mb-2">Телефон</label>
-                  <input 
-                    type="tel" 
-                    placeholder="+7 (___) ___-__-__"
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  />
-                </div>
+                      <div className="flex items-start gap-6">
+                        <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg z-10">
+                          2
+                        </div>
+                        <div className="flex-1 pt-3">
+                          <h3 className="text-2xl font-bold text-foreground mb-2">Главная страница</h3>
+                          <p className="text-lg text-muted-foreground">Приветствие, ежедневная медитация, быстрый доступ к основным функциям</p>
+                        </div>
+                      </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium text-foreground block mb-2">Дата</label>
-                    <input 
-                      type="date" 
-                      className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    />
+                      <div className="flex items-start gap-6">
+                        <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center text-foreground font-bold text-xl flex-shrink-0 shadow-lg z-10">
+                          3
+                        </div>
+                        <div className="flex-1 pt-3">
+                          <h3 className="text-2xl font-bold text-foreground mb-2">Основные разделы</h3>
+                          <div className="grid md:grid-cols-2 gap-4 mt-4">
+                            <div className="bg-muted p-4 rounded-xl">
+                              <p className="font-bold text-foreground flex items-center gap-2">
+                                <Icon name="BookOpen" size={20} className="text-primary" />
+                                Дневник настроения
+                              </p>
+                              <p className="text-sm text-muted-foreground mt-2">Отслеживание эмоций и состояния</p>
+                            </div>
+                            <div className="bg-muted p-4 rounded-xl">
+                              <p className="font-bold text-foreground flex items-center gap-2">
+                                <Icon name="ClipboardList" size={20} className="text-primary" />
+                                Психологические тесты
+                              </p>
+                              <p className="text-sm text-muted-foreground mt-2">Определение состояния через ИИ</p>
+                            </div>
+                            <div className="bg-muted p-4 rounded-xl">
+                              <p className="font-bold text-foreground flex items-center gap-2">
+                                <Icon name="Newspaper" size={20} className="text-primary" />
+                                Лента материалов
+                              </p>
+                              <p className="text-sm text-muted-foreground mt-2">Посты, советы, практики</p>
+                            </div>
+                            <div className="bg-muted p-4 rounded-xl">
+                              <p className="font-bold text-foreground flex items-center gap-2">
+                                <Icon name="Calendar" size={20} className="text-primary" />
+                                Запись к психологу
+                              </p>
+                              <p className="text-sm text-muted-foreground mt-2">Консультация со специалистом</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-6">
+                        <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg z-10">
+                          4
+                        </div>
+                        <div className="flex-1 pt-3">
+                          <h3 className="text-2xl font-bold text-foreground mb-2">Личный кабинет</h3>
+                          <p className="text-lg text-muted-foreground">Профиль, статистика прогресса, история сессий, настройки</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <label className="text-sm font-medium text-foreground block mb-2">Время</label>
-                    <input 
-                      type="time" 
-                      className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-foreground block mb-2">Количество гостей</label>
-                  <select className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50">
-                    <option>1 гость</option>
-                    <option>2 гостя</option>
-                    <option>3-4 гостя</option>
-                    <option>5+ гостей</option>
-                  </select>
-                </div>
-
-                <Button type="submit" size="lg" className="w-full bg-secondary hover:bg-secondary/90 text-white">
-                  <Icon name="Check" size={20} className="mr-2" />
-                  Забронировать
-                </Button>
-              </form>
+                </CardContent>
+              </Card>
             </div>
-          </div>
-        </div>
-      </section>
+          )}
 
-      <footer className="bg-primary text-white py-8 px-4">
-        <div className="container mx-auto text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Icon name="Anchor" size={32} />
-            <h3 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Порт о кофе
-            </h3>
-          </div>
-          <p className="text-white/80 mb-4">Ваш причал в море кофейных вкусов</p>
-          <div className="flex flex-wrap justify-center gap-6 text-sm text-white/80 mb-4">
-            <a href="#about" className="hover:text-white transition-colors">О нас</a>
-            <a href="#menu" className="hover:text-white transition-colors">Меню</a>
-            <a href="#gallery" className="hover:text-white transition-colors">Галерея</a>
-            <a href="#contact" className="hover:text-white transition-colors">Контакты</a>
-          </div>
-          <p className="text-sm text-white/60">© 2024 Порт о кофе. Все права защищены.</p>
+          {currentSlide === 4 && (
+            <div className="text-white space-y-8 animate-fade-in">
+              <h2 className="text-5xl font-bold mb-8 text-center" style={{ fontFamily: "'Manrope', sans-serif" }}>
+                Экраны приложения
+              </h2>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+                  <CardContent className="p-6">
+                    <div className="aspect-[9/16] bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl mb-4 flex items-center justify-center overflow-hidden">
+                      <img 
+                        src="https://cdn.poehali.dev/files/cc40e458-15b6-4399-8d22-b06582b8f25f.jpg" 
+                        alt="Загрузочный экран"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <h3 className="font-bold text-foreground text-center">Загрузочный экран</h3>
+                    <p className="text-sm text-muted-foreground text-center mt-2">Первое впечатление</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+                  <CardContent className="p-6">
+                    <div className="aspect-[9/16] bg-gradient-to-br from-secondary/20 to-accent/20 rounded-2xl mb-4 flex items-center justify-center">
+                      <Icon name="Sparkles" size={48} className="text-primary" />
+                    </div>
+                    <h3 className="font-bold text-foreground text-center">Старт</h3>
+                    <p className="text-sm text-muted-foreground text-center mt-2">Знакомство с функциями</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+                  <CardContent className="p-6">
+                    <div className="aspect-[9/16] bg-gradient-to-br from-accent/20 to-primary/20 rounded-2xl mb-4 flex items-center justify-center">
+                      <Icon name="UserPlus" size={48} className="text-secondary" />
+                    </div>
+                    <h3 className="font-bold text-foreground text-center">Регистрация</h3>
+                    <p className="text-sm text-muted-foreground text-center mt-2">Создание аккаунта</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+                  <CardContent className="p-6">
+                    <div className="aspect-[9/16] bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl mb-4 flex items-center justify-center">
+                      <Icon name="Home" size={48} className="text-primary" />
+                    </div>
+                    <h3 className="font-bold text-foreground text-center">Главная</h3>
+                    <p className="text-sm text-muted-foreground text-center mt-2">Личный дашборд</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+                  <CardContent className="p-6">
+                    <div className="aspect-[9/16] bg-gradient-to-br from-secondary/20 to-accent/20 rounded-2xl mb-4 flex items-center justify-center">
+                      <Icon name="BookOpen" size={48} className="text-secondary" />
+                    </div>
+                    <h3 className="font-bold text-foreground text-center">Дневник</h3>
+                    <p className="text-sm text-muted-foreground text-center mt-2">Записи настроения</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+                  <CardContent className="p-6">
+                    <div className="aspect-[9/16] bg-gradient-to-br from-accent/20 to-primary/20 rounded-2xl mb-4 flex items-center justify-center">
+                      <Icon name="User" size={48} className="text-accent" />
+                    </div>
+                    <h3 className="font-bold text-foreground text-center">Профиль</h3>
+                    <p className="text-sm text-muted-foreground text-center mt-2">Личные данные</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
+
+          {currentSlide === 5 && (
+            <div className="text-white space-y-8 animate-fade-in">
+              <h2 className="text-5xl font-bold mb-8 text-center" style={{ fontFamily: "'Manrope', sans-serif" }}>
+                Ключевой функционал
+              </h2>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                  <CardContent className="p-8">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
+                        <Icon name="Heart" size={32} className="text-primary" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-foreground">Медитации</h3>
+                    </div>
+                    <p className="text-lg text-muted-foreground mb-4">Практики осознанности с управляемыми сессиями</p>
+                    <ul className="space-y-2 text-muted-foreground">
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-secondary" />
+                        Дыхательные упражнения
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-secondary" />
+                        Визуализации
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                  <CardContent className="p-8">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center">
+                        <Icon name="BookOpen" size={32} className="text-secondary" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-foreground">Дневник</h3>
+                    </div>
+                    <p className="text-lg text-muted-foreground mb-4">Отслеживание настроения и эмоций</p>
+                    <ul className="space-y-2 text-muted-foreground">
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-secondary" />
+                        Ежедневные записи
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-secondary" />
+                        Статистика прогресса
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                  <CardContent className="p-8">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-16 h-16 bg-accent/20 rounded-2xl flex items-center justify-center">
+                        <Icon name="ClipboardList" size={32} className="text-accent" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-foreground">Тесты</h3>
+                    </div>
+                    <p className="text-lg text-muted-foreground mb-4">Психологические тесты и диагностика</p>
+                    <ul className="space-y-2 text-muted-foreground">
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-secondary" />
+                        Определение состояния
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-secondary" />
+                        Рекомендации по результатам
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/95 backdrop-blur-lg border-none shadow-2xl">
+                  <CardContent className="p-8">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
+                        <Icon name="Newspaper" size={32} className="text-primary" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-foreground">Лента</h3>
+                    </div>
+                    <p className="text-lg text-muted-foreground mb-4">Полезные материалы и советы</p>
+                    <ul className="space-y-2 text-muted-foreground">
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-secondary" />
+                        Статьи от психологов
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-secondary" />
+                        Истории успеха
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Card className="bg-gradient-to-r from-primary to-secondary text-white border-none shadow-2xl">
+                <CardContent className="p-10 text-center">
+                  <Icon name="Target" size={64} className="mx-auto mb-6 opacity-90" />
+                  <h3 className="text-3xl font-bold mb-4">Миссия проекта</h3>
+                  <p className="text-xl opacity-90 max-w-3xl mx-auto">
+                    Сделать психологическую поддержку доступной каждому человеку в любое время и в любом месте, помогая людям становиться счастливее и увереннее в себе
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
         </div>
-      </footer>
+      </div>
+
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 text-white/60 text-sm flex items-center gap-2 bg-black/20 px-4 py-2 rounded-full backdrop-blur-sm">
+        <Icon name="ArrowLeft" size={16} />
+        <span>Используйте стрелки или кнопки для навигации</span>
+        <Icon name="ArrowRight" size={16} />
+      </div>
     </div>
   );
 };
