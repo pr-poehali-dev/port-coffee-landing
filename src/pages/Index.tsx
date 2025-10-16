@@ -4,7 +4,7 @@ import Icon from "@/components/ui/icon";
 import { useState } from "react";
 
 const Index = () => {
-  const [activeScreen, setActiveScreen] = useState<'home' | 'exercises' | 'journal' | 'profile'>('home');
+  const [activeScreen, setActiveScreen] = useState<'welcome' | 'login' | 'register' | 'home' | 'exercises' | 'journal' | 'profile'>('welcome');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-accent/30 to-secondary/20 flex items-center justify-center p-4">
@@ -25,6 +25,251 @@ const Index = () => {
                 <Icon name="User" size={28} className="text-white" />
               </div>
             </div>
+
+            {activeScreen === 'welcome' && (
+              <div className="space-y-6 animate-fade-in text-center py-8">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                  <Icon name="Heart" size={48} className="text-white" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-foreground mb-3">MindCare</h2>
+                  <p className="text-muted-foreground px-4 leading-relaxed">
+                    Ваш персональный помощник в заботе о ментальном здоровье
+                  </p>
+                </div>
+
+                <div className="space-y-4 px-6 mt-12">
+                  <div className="flex items-center gap-4 text-left">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center flex-shrink-0">
+                      <Icon name="Brain" size={24} className="text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">Медитации</h3>
+                      <p className="text-sm text-muted-foreground">Практики осознанности</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-left">
+                    <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center flex-shrink-0">
+                      <Icon name="BookOpen" size={24} className="text-secondary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">Дневник эмоций</h3>
+                      <p className="text-sm text-muted-foreground">Отслеживайте настроение</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-left">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center flex-shrink-0">
+                      <Icon name="TrendingUp" size={24} className="text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">Прогресс</h3>
+                      <p className="text-sm text-muted-foreground">Следите за улучшениями</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3 px-6 pt-8">
+                  <Button 
+                    size="lg" 
+                    className="w-full bg-primary hover:bg-primary/90 text-white"
+                    onClick={() => setActiveScreen('register')}
+                  >
+                    Начать путь к спокойствию
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => setActiveScreen('login')}
+                  >
+                    Уже есть аккаунт
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {activeScreen === 'login' && (
+              <div className="space-y-6 animate-fade-in py-4">
+                <div className="text-center mb-8">
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <Icon name="LogIn" size={36} className="text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-foreground mb-2">Вход</h2>
+                  <p className="text-sm text-muted-foreground">Рады видеть вас снова</p>
+                </div>
+
+                <div className="space-y-4 px-6">
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-2">Email</label>
+                    <div className="relative">
+                      <input 
+                        type="email" 
+                        placeholder="anna@example.com"
+                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      />
+                      <Icon name="Mail" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-2">Пароль</label>
+                    <div className="relative">
+                      <input 
+                        type="password" 
+                        placeholder="••••••••"
+                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      />
+                      <Icon name="Lock" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    </div>
+                  </div>
+
+                  <button className="text-sm text-primary hover:underline">
+                    Забыли пароль?
+                  </button>
+
+                  <Button 
+                    size="lg" 
+                    className="w-full bg-primary hover:bg-primary/90 text-white mt-6"
+                    onClick={() => setActiveScreen('home')}
+                  >
+                    Войти
+                  </Button>
+
+                  <div className="relative my-6">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-border"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="px-4 bg-card text-muted-foreground">или</span>
+                    </div>
+                  </div>
+
+                  <Button variant="outline" size="lg" className="w-full">
+                    <Icon name="Mail" size={20} className="mr-2" />
+                    Войти через Google
+                  </Button>
+
+                  <p className="text-center text-sm text-muted-foreground mt-6">
+                    Нет аккаунта?{' '}
+                    <button 
+                      className="text-primary font-medium hover:underline"
+                      onClick={() => setActiveScreen('register')}
+                    >
+                      Зарегистрироваться
+                    </button>
+                  </p>
+
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => setActiveScreen('welcome')} 
+                    className="w-full mt-4"
+                  >
+                    <Icon name="ArrowLeft" size={20} className="mr-2" />
+                    Назад
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {activeScreen === 'register' && (
+              <div className="space-y-6 animate-fade-in py-4">
+                <div className="text-center mb-8">
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <Icon name="UserPlus" size={36} className="text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-foreground mb-2">Регистрация</h2>
+                  <p className="text-sm text-muted-foreground">Создайте свой аккаунт</p>
+                </div>
+
+                <div className="space-y-4 px-6">
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-2">Имя</label>
+                    <div className="relative">
+                      <input 
+                        type="text" 
+                        placeholder="Анна"
+                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      />
+                      <Icon name="User" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-2">Email</label>
+                    <div className="relative">
+                      <input 
+                        type="email" 
+                        placeholder="anna@example.com"
+                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      />
+                      <Icon name="Mail" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-2">Пароль</label>
+                    <div className="relative">
+                      <input 
+                        type="password" 
+                        placeholder="••••••••"
+                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      />
+                      <Icon name="Lock" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-2 mt-4">
+                    <input type="checkbox" id="terms" className="mt-1" />
+                    <label htmlFor="terms" className="text-sm text-muted-foreground">
+                      Я принимаю условия использования и политику конфиденциальности
+                    </label>
+                  </div>
+
+                  <Button 
+                    size="lg" 
+                    className="w-full bg-primary hover:bg-primary/90 text-white mt-6"
+                    onClick={() => setActiveScreen('home')}
+                  >
+                    Создать аккаунт
+                  </Button>
+
+                  <div className="relative my-6">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-border"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="px-4 bg-card text-muted-foreground">или</span>
+                    </div>
+                  </div>
+
+                  <Button variant="outline" size="lg" className="w-full">
+                    <Icon name="Mail" size={20} className="mr-2" />
+                    Регистрация через Google
+                  </Button>
+
+                  <p className="text-center text-sm text-muted-foreground mt-6">
+                    Уже есть аккаунт?{' '}
+                    <button 
+                      className="text-primary font-medium hover:underline"
+                      onClick={() => setActiveScreen('login')}
+                    >
+                      Войти
+                    </button>
+                  </p>
+
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => setActiveScreen('welcome')} 
+                    className="w-full mt-4"
+                  >
+                    <Icon name="ArrowLeft" size={20} className="mr-2" />
+                    Назад
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {activeScreen === 'home' && (
               <div className="space-y-4 animate-fade-in">
