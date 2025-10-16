@@ -1,300 +1,340 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
 
 const Index = () => {
+  const [activeScreen, setActiveScreen] = useState<'home' | 'exercises' | 'journal' | 'profile'>('home');
+
   return (
-    <div className="min-h-screen">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b border-primary/20">
-        <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Icon name="Anchor" size={32} className="text-secondary" />
-            <span className="text-2xl font-bold text-primary-foreground">Порт о кофе</span>
-          </div>
-          <div className="hidden md:flex gap-8">
-            <a href="#about" className="text-primary-foreground hover:text-secondary transition-colors">О нас</a>
-            <a href="#menu" className="text-primary-foreground hover:text-secondary transition-colors">Меню</a>
-            <a href="#gallery" className="text-primary-foreground hover:text-secondary transition-colors">Галерея</a>
-            <a href="#contacts" className="text-primary-foreground hover:text-secondary transition-colors">Контакты</a>
-          </div>
-          <Button variant="secondary" className="hidden md:flex">
-            Забронировать стол
-          </Button>
-        </nav>
-      </header>
-
-      <section 
-        className="relative h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
-        style={{ 
-          backgroundImage: `linear-gradient(rgba(30, 58, 95, 0.7), rgba(30, 58, 95, 0.7)), url('https://cdn.poehali.dev/projects/905da8c8-7d71-4021-8973-e6535c25edd3/files/fefe1ba2-8ae5-4303-81a7-759d815fa586.jpg')`
-        }}
-      >
-        <div className="container mx-auto px-4 text-center animate-fade-in-up">
-          <div className="flex justify-center mb-6">
-            <Icon name="Ship" size={64} className="text-secondary" />
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            Порт о кофе
-          </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Кофейня с морской душой. Каждая чашка — путешествие к новым горизонтам
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Button size="lg" variant="secondary" className="text-lg">
-              <Icon name="Coffee" size={20} className="mr-2" />
-              Посмотреть меню
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg bg-white/10 text-white border-white hover:bg-white hover:text-primary">
-              <Icon name="MapPin" size={20} className="mr-2" />
-              Как добраться
-            </Button>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-accent/30 to-secondary/20 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="mb-8 text-center animate-fade-in">
+          <h1 className="text-3xl font-bold text-foreground mb-2">MindCare</h1>
+          <p className="text-muted-foreground">Дизайн мобильного приложения</p>
         </div>
-        
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <Icon name="ChevronDown" size={32} className="text-white" />
-        </div>
-      </section>
 
-      <section id="about" className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
-              <div className="flex items-center gap-3 mb-4">
-                <Icon name="Compass" size={40} className="text-primary" />
-                <h2 className="text-4xl font-bold text-primary">О нас</h2>
+        <div className="bg-card rounded-[40px] shadow-2xl overflow-hidden border-8 border-foreground/10">
+          <div className="bg-gradient-to-b from-primary/10 to-transparent p-6 pt-12">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <p className="text-sm text-muted-foreground">Добро пожаловать</p>
+                <h2 className="text-2xl font-bold text-foreground">Анна</h2>
               </div>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                "Порт о кофе" — это не просто кофейня, это место, где встречаются любители кофе и романтики морских путешествий. Мы создали атмосферу старинного портового кафе, где каждый гость чувствует себя путешественником, а каждая чашка кофе — это билет в новое приключение.
-              </p>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Наши бариста — настоящие капитаны кофейного дела, которые с любовью готовят напитки из отборных зёрен со всех концов света.
-              </p>
-              <div className="grid grid-cols-3 gap-4 mt-8">
-                <div className="text-center p-4">
-                  <Icon name="Award" size={32} className="text-secondary mx-auto mb-2" />
-                  <p className="font-semibold text-primary">5+ лет</p>
-                  <p className="text-sm text-muted-foreground">на рынке</p>
-                </div>
-                <div className="text-center p-4">
-                  <Icon name="Users" size={32} className="text-secondary mx-auto mb-2" />
-                  <p className="font-semibold text-primary">10000+</p>
-                  <p className="text-sm text-muted-foreground">гостей</p>
-                </div>
-                <div className="text-center p-4">
-                  <Icon name="Star" size={32} className="text-secondary mx-auto mb-2" />
-                  <p className="font-semibold text-primary">4.9</p>
-                  <p className="text-sm text-muted-foreground">рейтинг</p>
-                </div>
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                <Icon name="User" size={28} className="text-white" />
               </div>
             </div>
-            <div className="animate-fade-in">
-              <img 
-                src="https://cdn.poehali.dev/projects/905da8c8-7d71-4021-8973-e6535c25edd3/files/56dc3136-790b-4f4e-a200-e455126d66e6.jpg" 
-                alt="Интерьер кофейни" 
-                className="rounded-lg shadow-2xl w-full h-[500px] object-cover"
-              />
+
+            {activeScreen === 'home' && (
+              <div className="space-y-4 animate-fade-in">
+                <Card className="bg-white/80 backdrop-blur border-none shadow-lg hover:shadow-xl transition-all">
+                  <CardContent className="p-5">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center flex-shrink-0">
+                        <Icon name="Heart" size={24} className="text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-foreground mb-1">Настроение сегодня</h3>
+                        <p className="text-sm text-muted-foreground mb-3">Как вы себя чувствуете?</p>
+                        <div className="flex gap-2">
+                          {['😊', '😌', '😐', '😔', '😢'].map((emoji, i) => (
+                            <button key={i} className="w-10 h-10 rounded-full bg-accent/50 hover:bg-accent transition-colors text-lg">
+                              {emoji}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur border-none shadow-lg">
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Ежедневная медитация</p>
+                        <h3 className="font-semibold text-foreground mb-2">Дыхание спокойствия</h3>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Icon name="Clock" size={16} />
+                          <span>10 минут</span>
+                        </div>
+                      </div>
+                      <Button size="sm" className="rounded-full bg-primary hover:bg-primary/90">
+                        <Icon name="Play" size={18} />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <Card className="bg-white/80 backdrop-blur border-none shadow-lg hover:shadow-xl transition-all cursor-pointer" onClick={() => setActiveScreen('exercises')}>
+                    <CardContent className="p-5 text-center">
+                      <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-secondary/20 flex items-center justify-center">
+                        <Icon name="Sparkles" size={24} className="text-secondary" />
+                      </div>
+                      <h3 className="font-semibold text-foreground text-sm mb-1">Упражнения</h3>
+                      <p className="text-xs text-muted-foreground">24 практики</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white/80 backdrop-blur border-none shadow-lg hover:shadow-xl transition-all cursor-pointer" onClick={() => setActiveScreen('journal')}>
+                    <CardContent className="p-5 text-center">
+                      <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-primary/20 flex items-center justify-center">
+                        <Icon name="BookOpen" size={24} className="text-primary" />
+                      </div>
+                      <h3 className="font-semibold text-foreground text-sm mb-1">Дневник</h3>
+                      <p className="text-xs text-muted-foreground">Ваши записи</p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-foreground">Ваш прогресс</h3>
+                      <span className="text-sm text-primary font-medium">7 дней</span>
+                    </div>
+                    <div className="flex gap-1.5 mb-2">
+                      {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                        <div key={day} className="flex-1">
+                          <div className={`h-16 rounded-lg ${day <= 5 ? 'bg-primary' : 'bg-accent/50'}`}></div>
+                          <p className="text-xs text-center text-muted-foreground mt-1">
+                            {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'][day - 1]}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {activeScreen === 'exercises' && (
+              <div className="space-y-4 animate-fade-in">
+                <Button variant="ghost" onClick={() => setActiveScreen('home')} className="mb-2">
+                  <Icon name="ArrowLeft" size={20} className="mr-2" />
+                  Назад
+                </Button>
+
+                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
+                  <CardContent className="p-5">
+                    <div className="flex gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+                        <Icon name="Wind" size={28} className="text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-foreground mb-1">Техника 4-7-8</h3>
+                        <p className="text-sm text-muted-foreground mb-2">Дыхательное упражнение для снятия стресса</p>
+                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Icon name="Clock" size={14} />
+                            5 мин
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Icon name="TrendingUp" size={14} />
+                            Легко
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
+                  <CardContent className="p-5">
+                    <div className="flex gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-secondary to-primary flex items-center justify-center flex-shrink-0">
+                        <Icon name="Brain" size={28} className="text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-foreground mb-1">Осознанность</h3>
+                        <p className="text-sm text-muted-foreground mb-2">Практика присутствия в моменте</p>
+                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Icon name="Clock" size={14} />
+                            10 мин
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Icon name="TrendingUp" size={14} />
+                            Средне
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
+                  <CardContent className="p-5">
+                    <div className="flex gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/60 to-secondary/60 flex items-center justify-center flex-shrink-0">
+                        <Icon name="Smile" size={28} className="text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-foreground mb-1">Благодарность</h3>
+                        <p className="text-sm text-muted-foreground mb-2">Упражнение на позитивное мышление</p>
+                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Icon name="Clock" size={14} />
+                            7 мин
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Icon name="TrendingUp" size={14} />
+                            Легко
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {activeScreen === 'journal' && (
+              <div className="space-y-4 animate-fade-in">
+                <Button variant="ghost" onClick={() => setActiveScreen('home')} className="mb-2">
+                  <Icon name="ArrowLeft" size={20} className="mr-2" />
+                  Назад
+                </Button>
+
+                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-semibold text-foreground">Мои записи</h3>
+                      <Button size="sm" className="rounded-full bg-primary">
+                        <Icon name="Plus" size={18} />
+                      </Button>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="p-4 rounded-xl bg-accent/30 border border-primary/20">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-foreground">Сегодня, 14:30</span>
+                          <span className="text-lg">😊</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Сегодня был продуктивный день. Удалось завершить проект и даже прогуляться...
+                        </p>
+                      </div>
+
+                      <div className="p-4 rounded-xl bg-secondary/20 border border-secondary/30">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-foreground">Вчера, 21:15</span>
+                          <span className="text-lg">😌</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Вечерняя медитация помогла расслабиться после напряженного дня...
+                        </p>
+                      </div>
+
+                      <div className="p-4 rounded-xl bg-primary/10 border border-primary/20">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-foreground">2 дня назад</span>
+                          <span className="text-lg">😐</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Немного тревожный день, но дыхательные упражнения помогли...
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {activeScreen === 'profile' && (
+              <div className="space-y-4 animate-fade-in">
+                <Button variant="ghost" onClick={() => setActiveScreen('home')} className="mb-2">
+                  <Icon name="ArrowLeft" size={20} className="mr-2" />
+                  Назад
+                </Button>
+
+                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
+                  <CardContent className="p-5 text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                      <Icon name="User" size={40} className="text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-1">Анна Смирнова</h3>
+                    <p className="text-sm text-muted-foreground mb-4">anna@example.com</p>
+                    
+                    <div className="grid grid-cols-3 gap-4 mb-6">
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-primary">42</p>
+                        <p className="text-xs text-muted-foreground">Дней</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-secondary">156</p>
+                        <p className="text-xs text-muted-foreground">Практик</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-primary">28</p>
+                        <p className="text-xs text-muted-foreground">Записей</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Button variant="outline" className="w-full justify-start">
+                        <Icon name="Settings" size={20} className="mr-3" />
+                        Настройки
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start">
+                        <Icon name="Bell" size={20} className="mr-3" />
+                        Уведомления
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start">
+                        <Icon name="HelpCircle" size={20} className="mr-3" />
+                        Помощь
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+          </div>
+
+          <div className="bg-white border-t border-border/50 px-6 py-4">
+            <div className="flex justify-around items-center">
+              <button 
+                onClick={() => setActiveScreen('home')}
+                className={`flex flex-col items-center gap-1 transition-colors ${activeScreen === 'home' ? 'text-primary' : 'text-muted-foreground'}`}
+              >
+                <Icon name="Home" size={24} />
+                <span className="text-xs font-medium">Главная</span>
+              </button>
+              
+              <button 
+                onClick={() => setActiveScreen('exercises')}
+                className={`flex flex-col items-center gap-1 transition-colors ${activeScreen === 'exercises' ? 'text-primary' : 'text-muted-foreground'}`}
+              >
+                <Icon name="Sparkles" size={24} />
+                <span className="text-xs font-medium">Практики</span>
+              </button>
+              
+              <button 
+                onClick={() => setActiveScreen('journal')}
+                className={`flex flex-col items-center gap-1 transition-colors ${activeScreen === 'journal' ? 'text-primary' : 'text-muted-foreground'}`}
+              >
+                <Icon name="BookOpen" size={24} />
+                <span className="text-xs font-medium">Дневник</span>
+              </button>
+              
+              <button 
+                onClick={() => setActiveScreen('profile')}
+                className={`flex flex-col items-center gap-1 transition-colors ${activeScreen === 'profile' ? 'text-primary' : 'text-muted-foreground'}`}
+              >
+                <Icon name="User" size={24} />
+                <span className="text-xs font-medium">Профиль</span>
+              </button>
             </div>
           </div>
         </div>
-      </section>
 
-      <section id="menu" className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
-            <div className="flex justify-center items-center gap-3 mb-4">
-              <Icon name="Coffee" size={40} className="text-primary" />
-              <h2 className="text-4xl font-bold text-primary">Наше меню</h2>
-            </div>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Кофе из лучших уголков мира, приготовленный с душой морского путешественника
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <Card className="hover:shadow-xl transition-shadow animate-fade-in">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-primary mb-2">Эспрессо "Маяк"</h3>
-                    <p className="text-sm text-muted-foreground">Классический крепкий эспрессо</p>
-                  </div>
-                  <Icon name="Waves" size={32} className="text-secondary" />
-                </div>
-                <p className="text-2xl font-bold text-primary">180₽</p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow animate-fade-in">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-primary mb-2">Капучино "Парус"</h3>
-                    <p className="text-sm text-muted-foreground">Нежный капучино с пенкой</p>
-                  </div>
-                  <Icon name="Wind" size={32} className="text-secondary" />
-                </div>
-                <p className="text-2xl font-bold text-primary">240₽</p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow animate-fade-in">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-primary mb-2">Латте "Горизонт"</h3>
-                    <p className="text-sm text-muted-foreground">Мягкий латте с карамелью</p>
-                  </div>
-                  <Icon name="Sunrise" size={32} className="text-secondary" />
-                </div>
-                <p className="text-2xl font-bold text-primary">260₽</p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow animate-fade-in">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-primary mb-2">Флэт Уайт "Штиль"</h3>
-                    <p className="text-sm text-muted-foreground">Идеальный баланс кофе и молока</p>
-                  </div>
-                  <Icon name="Sparkles" size={32} className="text-secondary" />
-                </div>
-                <p className="text-2xl font-bold text-primary">280₽</p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow animate-fade-in">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-primary mb-2">Раф "Морской бриз"</h3>
-                    <p className="text-sm text-muted-foreground">Авторский раф с лавандой</p>
-                  </div>
-                  <Icon name="CloudRain" size={32} className="text-secondary" />
-                </div>
-                <p className="text-2xl font-bold text-primary">300₽</p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow animate-fade-in">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-primary mb-2">Американо "Семь морей"</h3>
-                    <p className="text-sm text-muted-foreground">Крепкий американо</p>
-                  </div>
-                  <Icon name="Droplets" size={32} className="text-secondary" />
-                </div>
-                <p className="text-2xl font-bold text-primary">200₽</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="text-center mt-12">
-            <Button size="lg" variant="default">
-              Полное меню с десертами
-              <Icon name="ArrowRight" size={20} className="ml-2" />
-            </Button>
-          </div>
+        <div className="mt-6 text-center text-sm text-muted-foreground">
+          <p>Интерактивный прототип дизайна</p>
+          <p className="text-xs mt-1">Нажимайте на кнопки для навигации</p>
         </div>
-      </section>
-
-      <section id="gallery" className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
-            <div className="flex justify-center items-center gap-3 mb-4">
-              <Icon name="Image" size={40} className="text-primary" />
-              <h2 className="text-4xl font-bold text-primary">Атмосфера</h2>
-            </div>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Окунитесь в уютную атмосферу нашей кофейни
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
-            <div className="animate-fade-in">
-              <img 
-                src="https://cdn.poehali.dev/projects/905da8c8-7d71-4021-8973-e6535c25edd3/files/56dc3136-790b-4f4e-a200-e455126d66e6.jpg" 
-                alt="Интерьер" 
-                className="rounded-lg shadow-lg w-full h-80 object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="animate-fade-in">
-              <img 
-                src="https://cdn.poehali.dev/projects/905da8c8-7d71-4021-8973-e6535c25edd3/files/9fcc9fc7-bf03-4d1c-8f94-e5c8cfd5b770.jpg" 
-                alt="Латте арт" 
-                className="rounded-lg shadow-lg w-full h-80 object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="md:col-span-2 animate-fade-in">
-              <img 
-                src="https://cdn.poehali.dev/projects/905da8c8-7d71-4021-8973-e6535c25edd3/files/fefe1ba2-8ae5-4303-81a7-759d815fa586.jpg" 
-                alt="Вид на море" 
-                className="rounded-lg shadow-lg w-full h-96 object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="contacts" className="py-20 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
-            <div className="flex justify-center items-center gap-3 mb-4">
-              <Icon name="MapPin" size={40} className="text-secondary" />
-              <h2 className="text-4xl font-bold">Контакты</h2>
-            </div>
-            <p className="text-lg text-primary-foreground/80 max-w-2xl mx-auto">
-              Мы ждём вас каждый день с 8:00 до 23:00
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="bg-white/10 border-white/20 hover:bg-white/15 transition-colors">
-              <CardContent className="p-6 text-center">
-                <Icon name="MapPin" size={40} className="text-secondary mx-auto mb-4" />
-                <h3 className="text-xl font-bold mb-2">Адрес</h3>
-                <p className="text-primary-foreground/80">г. Владивосток,<br />ул. Портовая, 12</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 border-white/20 hover:bg-white/15 transition-colors">
-              <CardContent className="p-6 text-center">
-                <Icon name="Phone" size={40} className="text-secondary mx-auto mb-4" />
-                <h3 className="text-xl font-bold mb-2">Телефон</h3>
-                <p className="text-primary-foreground/80">+7 (423) 555-77-88</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 border-white/20 hover:bg-white/15 transition-colors">
-              <CardContent className="p-6 text-center">
-                <Icon name="Mail" size={40} className="text-secondary mx-auto mb-4" />
-                <h3 className="text-xl font-bold mb-2">Email</h3>
-                <p className="text-primary-foreground/80">hello@portocoffee.ru</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="mt-12 text-center">
-            <Button size="lg" variant="secondary">
-              <Icon name="Instagram" size={20} className="mr-2" />
-              Мы в Instagram
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <footer className="bg-accent text-white py-8">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex justify-center items-center gap-2 mb-4">
-            <Icon name="Anchor" size={24} />
-            <span className="text-xl font-bold">Порт о кофе</span>
-          </div>
-          <p className="text-white/80">© 2024 Порт о кофе. Все права защищены.</p>
-          <p className="text-white/60 mt-2 text-sm">Кофе с морской душой ⚓</p>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 };
