@@ -4,582 +4,348 @@ import Icon from "@/components/ui/icon";
 import { useState } from "react";
 
 const Index = () => {
-  const [activeScreen, setActiveScreen] = useState<'welcome' | 'login' | 'register' | 'home' | 'exercises' | 'journal' | 'profile'>('welcome');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const coffeeMenu = [
+    { name: "Капитанский эспрессо", price: "180₽", desc: "Крепкий и насыщенный" },
+    { name: "Морской капучино", price: "220₽", desc: "Нежный с пенкой-волной" },
+    { name: "Латте \"Морской бриз\"", price: "250₽", desc: "С нотками ванили" },
+    { name: "Раф \"Якорная стоянка\"", price: "270₽", desc: "Сливочная нежность" },
+    { name: "Флэт уайт \"Штиль\"", price: "240₽", desc: "Сбалансированный вкус" },
+    { name: "Американо \"Волна\"", price: "150₽", desc: "Классика в море кофе" },
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent/30 to-secondary/20 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="mb-8 text-center animate-fade-in">
-          <h1 className="text-3xl font-bold text-foreground mb-2">MindCare</h1>
-          <p className="text-muted-foreground">Дизайн мобильного приложения</p>
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted">
+      <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center">
+              <Icon name="Anchor" size={24} className="text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-primary" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Порт о кофе
+              </h1>
+              <p className="text-xs text-muted-foreground">Кофейня у причала</p>
+            </div>
+          </div>
+          
+          <div className="hidden md:flex gap-6 items-center">
+            <a href="#about" className="text-foreground hover:text-primary transition-colors">О нас</a>
+            <a href="#menu" className="text-foreground hover:text-primary transition-colors">Меню</a>
+            <a href="#gallery" className="text-foreground hover:text-primary transition-colors">Галерея</a>
+            <a href="#contact" className="text-foreground hover:text-primary transition-colors">Контакты</a>
+          </div>
+
+          <button 
+            className="md:hidden p-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Icon name={isMenuOpen ? "X" : "Menu"} size={24} />
+          </button>
         </div>
 
-        <div className="bg-card rounded-[40px] shadow-2xl overflow-hidden border-8 border-foreground/10">
-          <div className="bg-gradient-to-b from-primary/10 to-transparent p-6 pt-12">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <p className="text-sm text-muted-foreground">Добро пожаловать</p>
-                <h2 className="text-2xl font-bold text-foreground">Анна</h2>
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t border-border px-4 py-4 space-y-3 animate-fade-in">
+            <a href="#about" className="block text-foreground hover:text-primary transition-colors">О нас</a>
+            <a href="#menu" className="block text-foreground hover:text-primary transition-colors">Меню</a>
+            <a href="#gallery" className="block text-foreground hover:text-primary transition-colors">Галерея</a>
+            <a href="#contact" className="block text-foreground hover:text-primary transition-colors">Контакты</a>
+          </div>
+        )}
+      </nav>
+
+      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 text-primary text-8xl">⚓</div>
+          <div className="absolute top-40 right-20 text-secondary text-6xl">🌊</div>
+          <div className="absolute bottom-20 left-1/4 text-accent text-7xl">⛵</div>
+        </div>
+
+        <div className="container mx-auto text-center relative z-10 animate-fade-in">
+          <h2 className="text-5xl md:text-7xl font-bold text-primary mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Ваш порт<br />в море кофе
+          </h2>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Бросьте якорь и насладитесь лучшим кофе<br />в атмосфере морских путешествий
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white text-lg px-8">
+              <Icon name="Coffee" size={20} className="mr-2" />
+              Посмотреть меню
+            </Button>
+            <Button size="lg" variant="outline" className="text-lg px-8 border-primary text-primary hover:bg-primary/10">
+              <Icon name="MapPin" size={20} className="mr-2" />
+              Как добраться
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Почему мы?
+          </h2>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <Card className="border-none shadow-lg hover:shadow-xl transition-all">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Icon name="Ship" size={32} className="text-primary" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">Морская атмосфера</h3>
+                <p className="text-muted-foreground">
+                  Уникальный интерьер в морском стиле переносит вас на борт корабля
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-none shadow-lg hover:shadow-xl transition-all">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-secondary/10 rounded-full flex items-center justify-center">
+                  <Icon name="Coffee" size={32} className="text-secondary" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">Качественный кофе</h3>
+                <p className="text-muted-foreground">
+                  Отборные зёрна из разных уголков мира и профессиональные бариста
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-none shadow-lg hover:shadow-xl transition-all">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-accent/20 rounded-full flex items-center justify-center">
+                  <Icon name="Heart" size={32} className="text-accent" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">Уютная гавань</h3>
+                <p className="text-muted-foreground">
+                  Идеальное место для встреч, работы или уединённого отдыха
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section id="menu" className="py-20 px-4 bg-gradient-to-b from-background to-muted/50">
+        <div className="container mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Наше меню
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 text-lg">Каждый напиток — это путешествие</p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {coffeeMenu.map((item, index) => (
+              <Card key={index} className="border-2 border-primary/20 hover:border-primary/50 transition-all hover:shadow-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-lg font-bold text-foreground flex-1">{item.name}</h3>
+                    <span className="text-xl font-bold text-secondary">{item.price}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  <div className="mt-4 flex items-center gap-2">
+                    <Icon name="Coffee" size={16} className="text-primary" />
+                    <span className="text-xs text-muted-foreground">Готовим с любовью</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-white">
+              <Icon name="FileText" size={20} className="mr-2" />
+              Полное меню (PDF)
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section id="gallery" className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Галерея
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <div key={i} className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center hover:scale-105 transition-transform cursor-pointer">
+                <Icon name={i % 4 === 0 ? "Anchor" : i % 3 === 0 ? "Ship" : i % 2 === 0 ? "Coffee" : "Waves"} size={48} className="text-primary/40" />
               </div>
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                <Icon name="User" size={28} className="text-white" />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-primary text-white">
+        <div className="container mx-auto text-center">
+          <div className="max-w-3xl mx-auto">
+            <Icon name="Waves" size={64} className="mx-auto mb-6 opacity-80" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Присоединяйтесь к нашей команде
+            </h2>
+            <p className="text-lg mb-8 opacity-90">
+              Каждая чашка кофе — это новое приключение.<br />
+              Станьте частью нашей морской семьи!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+                <Icon name="Users" size={20} className="mr-2" />
+                Программа лояльности
+              </Button>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                <Icon name="Gift" size={20} className="mr-2" />
+                Подарочные карты
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="py-20 px-4 bg-gradient-to-b from-muted to-background">
+        <div className="container mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-primary mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Найдите нас
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+            <div>
+              <h3 className="text-2xl font-bold text-foreground mb-6">Контакты</h3>
+              
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon name="MapPin" size={20} className="text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">Адрес</p>
+                    <p className="text-muted-foreground">ул. Морская, 42<br />Санкт-Петербург, 190000</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon name="Clock" size={20} className="text-secondary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">Часы работы</p>
+                    <p className="text-muted-foreground">Пн-Пт: 08:00 – 22:00<br />Сб-Вс: 09:00 – 23:00</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon name="Phone" size={20} className="text-accent" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">Телефон</p>
+                    <p className="text-muted-foreground">+7 (812) 555-01-23</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon name="Mail" size={20} className="text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">Email</p>
+                    <p className="text-muted-foreground">info@portocoffee.ru</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-4 mt-8">
+                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors">
+                  <Icon name="Instagram" size={20} />
+                </div>
+                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors">
+                  <Icon name="Facebook" size={20} />
+                </div>
+                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors">
+                  <Icon name="Phone" size={20} />
+                </div>
               </div>
             </div>
 
-            {activeScreen === 'welcome' && (
-              <div className="space-y-6 animate-fade-in text-center py-8">
-                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                  <Icon name="Heart" size={48} className="text-white" />
-                </div>
+            <div>
+              <h3 className="text-2xl font-bold text-foreground mb-6">Забронировать столик</h3>
+              
+              <form className="space-y-4">
                 <div>
-                  <h2 className="text-3xl font-bold text-foreground mb-3">MindCare</h2>
-                  <p className="text-muted-foreground px-4 leading-relaxed">
-                    Ваш персональный помощник в заботе о ментальном здоровье
-                  </p>
+                  <label className="text-sm font-medium text-foreground block mb-2">Имя</label>
+                  <input 
+                    type="text" 
+                    placeholder="Ваше имя"
+                    className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  />
                 </div>
 
-                <div className="space-y-4 px-6 mt-12">
-                  <div className="flex items-center gap-4 text-left">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center flex-shrink-0">
-                      <Icon name="Brain" size={24} className="text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground">Медитации</h3>
-                      <p className="text-sm text-muted-foreground">Практики осознанности</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 text-left">
-                    <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center flex-shrink-0">
-                      <Icon name="BookOpen" size={24} className="text-secondary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground">Дневник эмоций</h3>
-                      <p className="text-sm text-muted-foreground">Отслеживайте настроение</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 text-left">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center flex-shrink-0">
-                      <Icon name="TrendingUp" size={24} className="text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground">Прогресс</h3>
-                      <p className="text-sm text-muted-foreground">Следите за улучшениями</p>
-                    </div>
-                  </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground block mb-2">Телефон</label>
+                  <input 
+                    type="tel" 
+                    placeholder="+7 (___) ___-__-__"
+                    className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  />
                 </div>
-
-                <div className="space-y-3 px-6 pt-8">
-                  <Button 
-                    size="lg" 
-                    className="w-full bg-primary hover:bg-primary/90 text-white"
-                    onClick={() => setActiveScreen('register')}
-                  >
-                    Начать путь к спокойствию
-                  </Button>
-                  <Button 
-                    size="lg" 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={() => setActiveScreen('login')}
-                  >
-                    Уже есть аккаунт
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {activeScreen === 'login' && (
-              <div className="space-y-6 animate-fade-in py-4">
-                <div className="text-center mb-8">
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                    <Icon name="LogIn" size={36} className="text-white" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-foreground mb-2">Вход</h2>
-                  <p className="text-sm text-muted-foreground">Рады видеть вас снова</p>
-                </div>
-
-                <div className="space-y-4 px-6">
-                  <div>
-                    <label className="text-sm font-medium text-foreground block mb-2">Email</label>
-                    <div className="relative">
-                      <input 
-                        type="email" 
-                        placeholder="anna@example.com"
-                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      />
-                      <Icon name="Mail" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-foreground block mb-2">Пароль</label>
-                    <div className="relative">
-                      <input 
-                        type="password" 
-                        placeholder="••••••••"
-                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      />
-                      <Icon name="Lock" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    </div>
-                  </div>
-
-                  <button className="text-sm text-primary hover:underline">
-                    Забыли пароль?
-                  </button>
-
-                  <Button 
-                    size="lg" 
-                    className="w-full bg-primary hover:bg-primary/90 text-white mt-6"
-                    onClick={() => setActiveScreen('home')}
-                  >
-                    Войти
-                  </Button>
-
-                  <div className="relative my-6">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-border"></div>
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                      <span className="px-4 bg-card text-muted-foreground">или</span>
-                    </div>
-                  </div>
-
-                  <Button variant="outline" size="lg" className="w-full">
-                    <Icon name="Mail" size={20} className="mr-2" />
-                    Войти через Google
-                  </Button>
-
-                  <p className="text-center text-sm text-muted-foreground mt-6">
-                    Нет аккаунта?{' '}
-                    <button 
-                      className="text-primary font-medium hover:underline"
-                      onClick={() => setActiveScreen('register')}
-                    >
-                      Зарегистрироваться
-                    </button>
-                  </p>
-
-                  <Button 
-                    variant="ghost" 
-                    onClick={() => setActiveScreen('welcome')} 
-                    className="w-full mt-4"
-                  >
-                    <Icon name="ArrowLeft" size={20} className="mr-2" />
-                    Назад
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {activeScreen === 'register' && (
-              <div className="space-y-6 animate-fade-in py-4">
-                <div className="text-center mb-8">
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                    <Icon name="UserPlus" size={36} className="text-white" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-foreground mb-2">Регистрация</h2>
-                  <p className="text-sm text-muted-foreground">Создайте свой аккаунт</p>
-                </div>
-
-                <div className="space-y-4 px-6">
-                  <div>
-                    <label className="text-sm font-medium text-foreground block mb-2">Имя</label>
-                    <div className="relative">
-                      <input 
-                        type="text" 
-                        placeholder="Анна"
-                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      />
-                      <Icon name="User" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-foreground block mb-2">Email</label>
-                    <div className="relative">
-                      <input 
-                        type="email" 
-                        placeholder="anna@example.com"
-                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      />
-                      <Icon name="Mail" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-foreground block mb-2">Пароль</label>
-                    <div className="relative">
-                      <input 
-                        type="password" 
-                        placeholder="••••••••"
-                        className="w-full px-4 py-3 pr-10 rounded-xl border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      />
-                      <Icon name="Lock" size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-2 mt-4">
-                    <input type="checkbox" id="terms" className="mt-1" />
-                    <label htmlFor="terms" className="text-sm text-muted-foreground">
-                      Я принимаю условия использования и политику конфиденциальности
-                    </label>
-                  </div>
-
-                  <Button 
-                    size="lg" 
-                    className="w-full bg-primary hover:bg-primary/90 text-white mt-6"
-                    onClick={() => setActiveScreen('home')}
-                  >
-                    Создать аккаунт
-                  </Button>
-
-                  <div className="relative my-6">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-border"></div>
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                      <span className="px-4 bg-card text-muted-foreground">или</span>
-                    </div>
-                  </div>
-
-                  <Button variant="outline" size="lg" className="w-full">
-                    <Icon name="Mail" size={20} className="mr-2" />
-                    Регистрация через Google
-                  </Button>
-
-                  <p className="text-center text-sm text-muted-foreground mt-6">
-                    Уже есть аккаунт?{' '}
-                    <button 
-                      className="text-primary font-medium hover:underline"
-                      onClick={() => setActiveScreen('login')}
-                    >
-                      Войти
-                    </button>
-                  </p>
-
-                  <Button 
-                    variant="ghost" 
-                    onClick={() => setActiveScreen('welcome')} 
-                    className="w-full mt-4"
-                  >
-                    <Icon name="ArrowLeft" size={20} className="mr-2" />
-                    Назад
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {activeScreen === 'home' && (
-              <div className="space-y-4 animate-fade-in">
-                <Card className="bg-white/80 backdrop-blur border-none shadow-lg hover:shadow-xl transition-all">
-                  <CardContent className="p-5">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center flex-shrink-0">
-                        <Icon name="Heart" size={24} className="text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-foreground mb-1">Настроение сегодня</h3>
-                        <p className="text-sm text-muted-foreground mb-3">Как вы себя чувствуете?</p>
-                        <div className="flex gap-2">
-                          {['😊', '😌', '😐', '😔', '😢'].map((emoji, i) => (
-                            <button key={i} className="w-10 h-10 rounded-full bg-accent/50 hover:bg-accent transition-colors text-lg">
-                              {emoji}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur border-none shadow-lg">
-                  <CardContent className="p-5">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">Ежедневная медитация</p>
-                        <h3 className="font-semibold text-foreground mb-2">Дыхание спокойствия</h3>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Icon name="Clock" size={16} />
-                          <span>10 минут</span>
-                        </div>
-                      </div>
-                      <Button size="sm" className="rounded-full bg-primary hover:bg-primary/90">
-                        <Icon name="Play" size={18} />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <Card className="bg-white/80 backdrop-blur border-none shadow-lg hover:shadow-xl transition-all cursor-pointer" onClick={() => setActiveScreen('exercises')}>
-                    <CardContent className="p-5 text-center">
-                      <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-secondary/20 flex items-center justify-center">
-                        <Icon name="Sparkles" size={24} className="text-secondary" />
-                      </div>
-                      <h3 className="font-semibold text-foreground text-sm mb-1">Упражнения</h3>
-                      <p className="text-xs text-muted-foreground">24 практики</p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="bg-white/80 backdrop-blur border-none shadow-lg hover:shadow-xl transition-all cursor-pointer" onClick={() => setActiveScreen('journal')}>
-                    <CardContent className="p-5 text-center">
-                      <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-primary/20 flex items-center justify-center">
-                        <Icon name="BookOpen" size={24} className="text-primary" />
-                      </div>
-                      <h3 className="font-semibold text-foreground text-sm mb-1">Дневник</h3>
-                      <p className="text-xs text-muted-foreground">Ваши записи</p>
-                    </CardContent>
-                  </Card>
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-2">Дата</label>
+                    <input 
+                      type="date" 
+                      className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-2">Время</label>
+                    <input 
+                      type="time" 
+                      className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
+                  </div>
                 </div>
 
-                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
-                  <CardContent className="p-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold text-foreground">Ваш прогресс</h3>
-                      <span className="text-sm text-primary font-medium">7 дней</span>
-                    </div>
-                    <div className="flex gap-1.5 mb-2">
-                      {[1, 2, 3, 4, 5, 6, 7].map((day) => (
-                        <div key={day} className="flex-1">
-                          <div className={`h-16 rounded-lg ${day <= 5 ? 'bg-primary' : 'bg-accent/50'}`}></div>
-                          <p className="text-xs text-center text-muted-foreground mt-1">
-                            {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'][day - 1]}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
+                <div>
+                  <label className="text-sm font-medium text-foreground block mb-2">Количество гостей</label>
+                  <select className="w-full px-4 py-3 rounded-lg border border-input bg-white focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    <option>1 гость</option>
+                    <option>2 гостя</option>
+                    <option>3-4 гостя</option>
+                    <option>5+ гостей</option>
+                  </select>
+                </div>
 
-            {activeScreen === 'exercises' && (
-              <div className="space-y-4 animate-fade-in">
-                <Button variant="ghost" onClick={() => setActiveScreen('home')} className="mb-2">
-                  <Icon name="ArrowLeft" size={20} className="mr-2" />
-                  Назад
+                <Button type="submit" size="lg" className="w-full bg-secondary hover:bg-secondary/90 text-white">
+                  <Icon name="Check" size={20} className="mr-2" />
+                  Забронировать
                 </Button>
-
-                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
-                  <CardContent className="p-5">
-                    <div className="flex gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
-                        <Icon name="Wind" size={28} className="text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-foreground mb-1">Техника 4-7-8</h3>
-                        <p className="text-sm text-muted-foreground mb-2">Дыхательное упражнение для снятия стресса</p>
-                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <Icon name="Clock" size={14} />
-                            5 мин
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Icon name="TrendingUp" size={14} />
-                            Легко
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
-                  <CardContent className="p-5">
-                    <div className="flex gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-secondary to-primary flex items-center justify-center flex-shrink-0">
-                        <Icon name="Brain" size={28} className="text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-foreground mb-1">Осознанность</h3>
-                        <p className="text-sm text-muted-foreground mb-2">Практика присутствия в моменте</p>
-                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <Icon name="Clock" size={14} />
-                            10 мин
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Icon name="TrendingUp" size={14} />
-                            Средне
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
-                  <CardContent className="p-5">
-                    <div className="flex gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/60 to-secondary/60 flex items-center justify-center flex-shrink-0">
-                        <Icon name="Smile" size={28} className="text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-foreground mb-1">Благодарность</h3>
-                        <p className="text-sm text-muted-foreground mb-2">Упражнение на позитивное мышление</p>
-                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <Icon name="Clock" size={14} />
-                            7 мин
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Icon name="TrendingUp" size={14} />
-                            Легко
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
-
-            {activeScreen === 'journal' && (
-              <div className="space-y-4 animate-fade-in">
-                <Button variant="ghost" onClick={() => setActiveScreen('home')} className="mb-2">
-                  <Icon name="ArrowLeft" size={20} className="mr-2" />
-                  Назад
-                </Button>
-
-                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
-                  <CardContent className="p-5">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-semibold text-foreground">Мои записи</h3>
-                      <Button size="sm" className="rounded-full bg-primary">
-                        <Icon name="Plus" size={18} />
-                      </Button>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="p-4 rounded-xl bg-accent/30 border border-primary/20">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-foreground">Сегодня, 14:30</span>
-                          <span className="text-lg">😊</span>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          Сегодня был продуктивный день. Удалось завершить проект и даже прогуляться...
-                        </p>
-                      </div>
-
-                      <div className="p-4 rounded-xl bg-secondary/20 border border-secondary/30">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-foreground">Вчера, 21:15</span>
-                          <span className="text-lg">😌</span>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          Вечерняя медитация помогла расслабиться после напряженного дня...
-                        </p>
-                      </div>
-
-                      <div className="p-4 rounded-xl bg-primary/10 border border-primary/20">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-foreground">2 дня назад</span>
-                          <span className="text-lg">😐</span>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          Немного тревожный день, но дыхательные упражнения помогли...
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
-
-            {activeScreen === 'profile' && (
-              <div className="space-y-4 animate-fade-in">
-                <Button variant="ghost" onClick={() => setActiveScreen('home')} className="mb-2">
-                  <Icon name="ArrowLeft" size={20} className="mr-2" />
-                  Назад
-                </Button>
-
-                <Card className="bg-white/80 backdrop-blur border-none shadow-lg">
-                  <CardContent className="p-5 text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                      <Icon name="User" size={40} className="text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground mb-1">Анна Смирнова</h3>
-                    <p className="text-sm text-muted-foreground mb-4">anna@example.com</p>
-                    
-                    <div className="grid grid-cols-3 gap-4 mb-6">
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-primary">42</p>
-                        <p className="text-xs text-muted-foreground">Дней</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-secondary">156</p>
-                        <p className="text-xs text-muted-foreground">Практик</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-primary">28</p>
-                        <p className="text-xs text-muted-foreground">Записей</p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Button variant="outline" className="w-full justify-start">
-                        <Icon name="Settings" size={20} className="mr-3" />
-                        Настройки
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start">
-                        <Icon name="Bell" size={20} className="mr-3" />
-                        Уведомления
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start">
-                        <Icon name="HelpCircle" size={20} className="mr-3" />
-                        Помощь
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
-          </div>
-
-          <div className="bg-white border-t border-border/50 px-6 py-4">
-            <div className="flex justify-around items-center">
-              <button 
-                onClick={() => setActiveScreen('home')}
-                className={`flex flex-col items-center gap-1 transition-colors ${activeScreen === 'home' ? 'text-primary' : 'text-muted-foreground'}`}
-              >
-                <Icon name="Home" size={24} />
-                <span className="text-xs font-medium">Главная</span>
-              </button>
-              
-              <button 
-                onClick={() => setActiveScreen('exercises')}
-                className={`flex flex-col items-center gap-1 transition-colors ${activeScreen === 'exercises' ? 'text-primary' : 'text-muted-foreground'}`}
-              >
-                <Icon name="Sparkles" size={24} />
-                <span className="text-xs font-medium">Практики</span>
-              </button>
-              
-              <button 
-                onClick={() => setActiveScreen('journal')}
-                className={`flex flex-col items-center gap-1 transition-colors ${activeScreen === 'journal' ? 'text-primary' : 'text-muted-foreground'}`}
-              >
-                <Icon name="BookOpen" size={24} />
-                <span className="text-xs font-medium">Дневник</span>
-              </button>
-              
-              <button 
-                onClick={() => setActiveScreen('profile')}
-                className={`flex flex-col items-center gap-1 transition-colors ${activeScreen === 'profile' ? 'text-primary' : 'text-muted-foreground'}`}
-              >
-                <Icon name="User" size={24} />
-                <span className="text-xs font-medium">Профиль</span>
-              </button>
+              </form>
             </div>
           </div>
         </div>
+      </section>
 
-        <div className="mt-6 text-center text-sm text-muted-foreground">
-          <p>Интерактивный прототип дизайна</p>
-          <p className="text-xs mt-1">Нажимайте на кнопки для навигации</p>
+      <footer className="bg-primary text-white py-8 px-4">
+        <div className="container mx-auto text-center">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Icon name="Anchor" size={32} />
+            <h3 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Порт о кофе
+            </h3>
+          </div>
+          <p className="text-white/80 mb-4">Ваш причал в море кофейных вкусов</p>
+          <div className="flex flex-wrap justify-center gap-6 text-sm text-white/80 mb-4">
+            <a href="#about" className="hover:text-white transition-colors">О нас</a>
+            <a href="#menu" className="hover:text-white transition-colors">Меню</a>
+            <a href="#gallery" className="hover:text-white transition-colors">Галерея</a>
+            <a href="#contact" className="hover:text-white transition-colors">Контакты</a>
+          </div>
+          <p className="text-sm text-white/60">© 2024 Порт о кофе. Все права защищены.</p>
         </div>
-      </div>
+      </footer>
     </div>
   );
 };
